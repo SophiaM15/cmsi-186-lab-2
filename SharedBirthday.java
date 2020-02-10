@@ -1,3 +1,4 @@
+import java.util.HashSet;
 public class SharedBirthday {
 
     public static void main(String[] args) {
@@ -17,15 +18,30 @@ public class SharedBirthday {
     }
 
     public static double probabilityEstimate(int people, int days, int trials) {
-        //
-        // TODO: Do the main work here. I've just returned 0.0 as a place holder
-        // so the code compiles. It isn't right though. Remove the return here and
-        // implement the whole method on your own.
-        //
-        return 0.0;
-    }
+        if (people < 2) {
+            throw new IllegalArgumentException("At least two people required");
+        } 
+        if (days < 1) {
+            throw new IllegalArgumentException("At least one day required");
+        } 
+        if (trials < 1) {
+            throw new IllegalArgumentException("At least one trial required");
+        }
 
-    //
-    // TODO: Don't be afraid to write private helper methods to keep your code modular.
-    //
+        double match = 0;
+
+        for (var i = 0; i < trials; i++) {
+            var birthdays = new HashSet<Integer>();
+            for (var j = 0; j < people; j++) {
+                int birthday = (int)Math.floor(Math.random() * days);
+                if (birthdays.contains(birthday)) {
+                    match++;
+                    break;
+                }
+                birthdays.add(birthday);
+            }
+        }
+
+        return match / (double)trials;
+    }
 }
